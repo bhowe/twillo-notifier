@@ -4,6 +4,9 @@ require_once('config.php');
 require_once('functions.php');
 require_once('functions-db.php');
 
+$user =   readUserDetails();
+
+
 /**
  * This example shows settings to use when sending via Google's Gmail servers.
  * This uses traditional id & password authentication - look at the gmail_xoauth.phps
@@ -21,7 +24,7 @@ $mail->isSMTP();
 // 0 = off (for production use)
 // 1 = client messages
 // 2 = client and server messages
-$mail->SMTPDebug = 2;
+$mail->SMTPDebug = 0;
 //Set the hostname of the mail server
 $mail->Host = 'smtp.gmail.com';
 
@@ -43,10 +46,10 @@ $mail->setFrom($mail_setFrom, 'Synergy myofascial Appointment Notifier');
 //Set who the message is to be sent to
 $mail->addAddress($mail_addAddress , 'Appointment Notifier');
 //Set the subject line
-$mail->Subject = 'PHPMailer GMail SMTP test';
+$mail->Subject = 'Appointment booked';
 //Read an HTML message body from an external file, convert referenced images to embedded,
 //convert HTML into a basic plain-text alternative body
-$mail->msgHTML("whatever");
+$mail->msgHTML("Patient ID " . $user['id'] . 'has booked an appointment for' );
 //Replace the plain text body with one created manually
 $mail->AltBody = 'This is a plain-text message body';
 //Attach an image file

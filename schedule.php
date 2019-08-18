@@ -2,6 +2,9 @@
 require_once('config.php');
 require_once('functions.php');
 require_once('functions-db.php');
+
+include('gmail_notifer.php');
+
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +30,8 @@ require_once('functions-db.php');
 if (checkAppointment() == 0){
     echo "Great you have the appointment see you then.";
     updateAppointment();
-   
+    include('gmail_notifer.php');
+       
 }else{
 
     echo "Sorry the appointment has already been booked.";

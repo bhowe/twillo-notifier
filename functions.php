@@ -4,9 +4,9 @@ require_once('config.php');
 require_once('functions.php');
 require_once('functions-db.php');
 
-require __DIR__ . '/twilio-php-master/Twilio/autoload.php';
-// Use the REST API Client to make requests to the Twilio REST API
-use Twilio\Rest\Client; 	use Twilio\Exceptions\TwilioException;
+require __DIR__ . '/vendor/autoload.php';
+use Twilio\Rest\Client;
+use Twilio\Exceptions\TwilioException;
 
 $absolute_url = full_url( $_SERVER );
 
@@ -47,17 +47,18 @@ function send_message(){
 	global $message;
 	global $buy_link;
 
+
 		$client = new Client($sid, $token);
 		$to='';
 		$response = array();
 		insert_sms($message);
 		// Use the client to do fun stuff like send text messages!
 		$sms_id = getMaxSmsID();
-		$the_date = $_POST['date'];
-		$the_time = $_POST['time'];
+		$the_date = $_REQUEST['date'];
+		$the_time = $_REQUEST['time'];
 
-		if(!empty($_POST['contacts'])){
-			foreach($_POST['contacts'] as $contactid){
+		if(!empty($_REQUEST['contacts'])){
+			foreach($_REQUEST['contacts'] as $contactid){
 			$number = getUserPhone($contactid);
 			$to='+1'.$number;	
 			try {

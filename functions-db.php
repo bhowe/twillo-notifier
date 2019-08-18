@@ -4,10 +4,6 @@ require_once('config.php');
 require_once('functions.php');
 require_once('functions-db.php');
 
-if(!empty($_POST['action'])){
-	call_user_func($_POST['action']);	
- }
-
 
 function insert(){
 	 global $db;
@@ -68,10 +64,10 @@ function get_all_contacts_dropdown(){
 
 function readUserDetails(){
 	global $db;
-	if(isset($_POST['id']) && isset($_POST['id']) != "")
+	if(isset($_REQUEST['id']) && isset($_REQUEST['id']) != "")
 		{
 			// get User ID
-			$user_id = $_POST['id'];
+			$user_id = $_REQUEST['id'];
 
 			// Get User Details
 			$query = "SELECT * FROM contacts WHERE id = '$user_id'";
@@ -155,8 +151,8 @@ $data = '<table class="table table-bordered table-striped">
 function insert_sms($message){
 	 global $db;
 	 $insert_message = mysqli_real_escape_string($db, $message);
-	 $sql_statement="INSERT INTO sms_transactions (sms_message,sms_date,sms_completed) VALUES ('". $insert_message."',NOW(),0)";
-	 return  db_execute($sql_statement);	 
+	 //$sql_statement="INSERT INTO sms_transactions (sms_message,sms_date,sms_time,sms_completed) VALUES ('". $insert_message."'," .$_REQUEST['sms_date']."," . $_REQUEST['sms_time'] . ",0)";
+	// return  db_execute($sql_statement);	 
 }
 
 function db_execute($sql_statement){
@@ -188,7 +184,15 @@ function getMaxSmsID(){
 
 function checkAppointment(){
 	global $db;
-	$query = "SELECT sms_completed as completed FROM  sms_transactions where idsms_transactions = " . $_GET['sms_id'];
+	$query = "SELECT sms_completed as completed FROM  sms_transactions where idsms_transactions = " . $_REQUEST['sms_id'];
+    $result = mysqli_query($db,$query);
+	$row = mysqli_fetch_assoc($result);
+    return $row['completed'];
+}
+
+function getAppointmentTimne(){
+	global $db;
+	$query = "SELECT sms_completed as completed FROM  sms_transactions where idsms_transactions = " . $_REQUEST['sms_id'];
     $result = mysqli_query($db,$query);
 	$row = mysqli_fetch_assoc($result);
     return $row['completed'];
@@ -196,7 +200,7 @@ function checkAppointment(){
 
 function updateAppointment(){
 	global $db;
-	$query = "UPDATE sms_transactions set sms_completed = 1 where idsms_transactions = " . $_GET['sms_id'];
+$query = "UPDATE sms_transactions set sms_completed = 1 where idsms_transactions = " . $_REQUEST['sms_id'];
     $result = mysqli_query($db,$query);
 	//$row = mysqli_fetch_assoc($result);
     //return $row['completed'];
