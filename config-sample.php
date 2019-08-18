@@ -22,4 +22,13 @@ if($db === false){
     die("ERROR: Could not connect. " . mysqli_connect_error());
 }
 
+$mail_Username = "yourEmail Address";
+//Password to use for SMTP authentication
+$mail_Password = "Your Email password";
+//Set who the message is to be sent from
+$mail_setFrom = 'FromEmail';
+
+//Set who the message is to be sent to
+$mail_addAddress = 'Who you want to notify';
+
 ?>
