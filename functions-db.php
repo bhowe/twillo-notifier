@@ -4,6 +4,11 @@ require_once('config.php');
 require_once('functions.php');
 require_once('functions-db.php');
 
+if(!empty($_POST['action'])){
+	call_user_func($_POST['action']);	
+ }
+
+
 function insert(){
 	 global $db;
      $sql_statement="INSERT INTO contacts (name, phone) VALUES ('".$_POST['name']."', '".$_POST['phone']."')";
@@ -98,6 +103,7 @@ function readUserDetails(){
 
 function readRecords(){
 	global $db;
+
 $data = '<table class="table table-bordered table-striped">
 						<tr>
 							<th>No.</th>
@@ -106,6 +112,8 @@ $data = '<table class="table table-bordered table-striped">
 							<th>Update</th>
 							<th>Delete</th>
 						</tr>';
+
+
 
 	$query = "SELECT * FROM contacts";
 
@@ -193,5 +201,39 @@ function updateAppointment(){
 	//$row = mysqli_fetch_assoc($result);
     //return $row['completed'];
 }
+
+/**
+ *
+ * Grab all the contacts from the DB
+ *
+ * @return string HTML list of all cohntacts
+ */
+
+function get_all_contacts(){
+	
+	global $db;
+    $query = "SELECT * FROM contacts";
+	$result = mysqli_query($db,$query);
+	$html='';
+
+	
+    // if query results contains rows then featch those rows 
+    if(mysqli_num_rows($result) > 0)
+    {
+    	$number = 1;
+    	while($row = mysqli_fetch_assoc($result))
+    	{
+				$html.='<div class="checkbox">';
+				$html.='<label>';
+				$html.='<input type="checkbox" name="contacts" class="check" value="'.$row['id'].'">'.$row['name'].'<'.$row['phone'].'>';
+				$html.='</label>';
+				$html.='</div>';
+		}
+	}else{
+		    $html="<strong>No records found...</strong>";
+	}
+	return $html;
+}
+
 
 ?>

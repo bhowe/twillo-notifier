@@ -94,6 +94,7 @@ function addRecord() {
 
 // READ records
 function readRecords() {
+
     $.get(site_url+"functions.php?action=readRecords", {}, function (data, status) {
         $(".records_content").html(data);
     });
@@ -190,7 +191,7 @@ function UpdateUserDetails() {
 
 $(document).ready(function () {
     // READ recods on page load
-    readRecords(); // calling function
+	readRecords(); // calling function
 	
 		$("#checkAll").click(function () {
 			$(".check").prop('checked', $(this).prop('checked'));

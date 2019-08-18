@@ -4,15 +4,15 @@ require_once('config.php');
 require_once('functions.php');
 require_once('functions-db.php');
 
-
 require __DIR__ . '/twilio-php-master/Twilio/autoload.php';
 // Use the REST API Client to make requests to the Twilio REST API
 use Twilio\Rest\Client; 	use Twilio\Exceptions\TwilioException;
 
 $absolute_url = full_url( $_SERVER );
 
-if(!empty($_POST['action'])){
-	call_user_func($_POST['action']);	
+if(!empty($_REQUEST['action'])){
+
+	call_user_func($_REQUEST['action']);	
  }
 
  /**
@@ -116,37 +116,6 @@ function full_url( $s, $use_forwarded_host = false )
 }
 
 
-/**
- *
- * Grab all the contacts from the DB
- *
- * @return string HTML list of all cohntacts
- */
-
-function get_all_contacts(){
-	
-	global $db;
-    $query = "SELECT * FROM contacts";
-	$result = mysqli_query($db,$query);
-	$html='';
-
-    // if query results contains rows then featch those rows 
-    if(mysqli_num_rows($result) > 0)
-    {
-    	$number = 1;
-    	while($row = mysqli_fetch_assoc($result))
-    	{
-				$html.='<div class="checkbox">';
-				$html.='<label>';
-				$html.='<input type="checkbox" name="contacts" class="check" value="'.$row['id'].'">'.$row['name'].'<'.$row['phone'].'>';
-				$html.='</label>';
-				$html.='</div>';
-		}
-	}else{
-		    $html="<strong>No records found...</strong>";
-	}
-	return $html;
-}
 
 
 /**
