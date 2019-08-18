@@ -9,9 +9,17 @@ require __DIR__ . '/twilio-php-master/Twilio/autoload.php';
 // Use the REST API Client to make requests to the Twilio REST API
 use Twilio\Rest\Client; 	use Twilio\Exceptions\TwilioException;
 
+$absolute_url = full_url( $_SERVER );
+
 if(!empty($_POST['action'])){
 	call_user_func($_POST['action']);	
  }
+
+ /**
+ *
+ * Log a message to a fileL 
+ *
+ * */
 
 function  log_message($message)
 {
@@ -20,6 +28,14 @@ $log  = $message . "\n\10\n\10";
 //Save string to log, use FILE_APPEND to append.
 file_put_contents('./log_'.date("j.n.Y").'.log', $log, FILE_APPEND);
 }
+
+/**
+ *
+ * Send the message via twillo
+ *
+ * @return array of status of transactions
+ * */
+
 
 function send_message(){
 	// Require the bundled autoload file - the path may need to change
@@ -99,7 +115,13 @@ function full_url( $s, $use_forwarded_host = false )
     return url_origin( $s, $use_forwarded_host ) . $s['REQUEST_URI'];
 }
 
-$absolute_url = full_url( $_SERVER );
+
+/**
+ *
+ * Grab all the contacts from the DB
+ *
+ * @return string HTML list of all cohntacts
+ */
 
 function get_all_contacts(){
 	
@@ -150,6 +172,14 @@ function get_times( $default = '19:00', $interval = '+30 minutes' ) {
 
     return $output;
 }
+
+/**
+ *
+ * Get the origin URL 
+ *
+ * @return string the url
+ * */
+
 function url_origin( $s, $use_forwarded_host = false )
 {
     $ssl      = ( ! empty( $s['HTTPS'] ) && $s['HTTPS'] == 'on' );
